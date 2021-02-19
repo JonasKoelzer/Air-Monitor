@@ -1,0 +1,6 @@
+#Ignore JSON files inclduing the login credentials:
+*.json
+#Ignore database:
+*.db
+#Ignore logfile:
+*.txt
