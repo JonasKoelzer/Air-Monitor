@@ -2,9 +2,9 @@
 To maintain a healthy work environment in the home office, different parameters are scanned and airing suggestions are sent via push notifications. The project is based on a raspberry pi and sensation SCD30 CO2 sensor.
 
 # What you need
-Raspberry pi (tested on model 3, but any other may work as well)
-Sensirion SCD30 CO2 sensor
-4 wires 
+* Raspberry pi (tested on model 3, but any other may work as well)
+* Sensirion SCD30 CO2 sensor
+* 4 wires 
 
 # Wiring scheme
 This scheme presents how you hook up the sensor to the pi so they can communicate via the I2C protocol:
