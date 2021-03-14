@@ -8,35 +8,36 @@ import sqlite3
 from datetime import datetime, timedelta
 import plotly.express as px
 import socket
+import sys
 
 port = 8080
 host = socket.gethostbyname(socket.gethostname())
 
-conn = sqlite3.connect('air-data.db')
-conn.execute('pragma journal_mode=wal')
-cursor =conn.cursor()
+def get_connection():
+    full_path = sys.argv[0].split("dash-app.py")[0]
+    conn = sqlite3.connect(full_path+'air-data.db')
+    conn.execute('pragma journal_mode=wal')
+    return conn
 
-df = pd.read_sql("SELECT DATE,CO2,TEMP,HUM FROM AIRDATA ORDER BY DATE DESC LIMIT 100",conn)
 
 app = dash.Dash(__name__)
 
-#TODO: Improve the design
 app.layout = html.Div([
     dcc.Interval(
             id='interval-component',
-            interval=60*10000, # in milliseconds
+            interval=60*1000, # in milliseconds
             n_intervals=0
     ),
     dcc.Graph(id='CO2_plot'),
     dcc.Interval(
             id='interval-component2',
-            interval=60*10000, # in milliseconds
+            interval=60*1000, # in milliseconds
             n_intervals=0
     ),
     dcc.Graph(id='T_plot'),
     dcc.Interval(
             id='interval-component3',
-            interval=60*10000, # in milliseconds
+            interval=60*1000, # in milliseconds
             n_intervals=0
     ),
     dcc.Graph(id='H2O_plot'),
@@ -49,6 +50,8 @@ app.layout = html.Div([
     Output('CO2_plot', 'figure'),
     [Input('interval-component', 'n_intervals')])
 def update_static_figure(n_intervals):
+    conn = get_connection()
+    df = pd.read_sql("SELECT DATE,CO2,TEMP,HUM FROM AIRDATA ORDER BY DATE DESC LIMIT 1000",conn)
     fig = px.scatter(df,x="DATE",y="CO2")
     return fig
 
@@ -57,6 +60,8 @@ def update_static_figure(n_intervals):
     Output('H2O_plot', 'figure'),
     [Input('interval-component3', 'n_intervals')])
 def update_static_figure(n_intervals):
+    conn = get_connection()
+    df = pd.read_sql("SELECT DATE,CO2,TEMP,HUM FROM AIRDATA ORDER BY DATE DESC LIMIT 1000",conn)
     fig = px.scatter(df,x="DATE",y="HUM")
     return fig
 
@@ -65,6 +70,8 @@ def update_static_figure(n_intervals):
     Output('T_plot', 'figure'),
     [Input('interval-component2', 'n_intervals')])
 def update_static_figure(n_intervals):
+    conn = get_connection()
+    df = pd.read_sql("SELECT DATE,CO2,TEMP,HUM FROM AIRDATA ORDER BY DATE DESC LIMIT 1000",conn)
     fig = px.scatter(df,x="DATE",y="TEMP")
     return fig
 
