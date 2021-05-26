@@ -28,3 +28,7 @@ This scheme presents how you hook up the sensor to the pi so they can communicat
 ``` 
 @reboot python3 PATH-TO-REPOSITORY-HERE/Air-Monitor/app.py > PATH-TO-REPOSITORY-HERE/Air-Monitor/out_log.txt
 ```
+
+# Dashboard
+Open the IP adress in our browser in order to visualize the air quality data.
+![](./images/Screenshot_dashboard.png)
